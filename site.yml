@@ -1,2 +1,7 @@
 ---
 - name: Apply ping exporter configuration
+  hosts: all
+  roles:
+    - role: prometheus-ping-exporter
+      tags:
+        - ping

@@ -1,3 +1,22 @@
-#SPDX-License-Identifier: MIT-0
+# SPDX-License-Identifier: MIT-0
 ---
-# tasks file for prometheus-ping-exporter
+- name: Ensure Prometheus Ping Exporter
+  community.general.pacman:
+    executable: yay
+    name: prometheus-ping-exporter
+    state: present
+    update_cache: true
+- name: Copy configuration file
+  ansible.builtin.copy:
+    src: config.yml
+    dest: /etc/ping_exporter/config.yml
+    owner: root
+    group: root
+    mode: u+rw,go+r
+  become: true
+- name: Restart the Prometheus Ping Exporter
+  ansible.builtin.service:
+    name: prometheus-ping-exporter
+    enabled: true
+    state: restarted
+  become: true
